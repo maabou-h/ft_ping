@@ -20,7 +20,8 @@
 # define MAXNPACKETS    5
 # define BYTE           8
 # define DATALEN        56
-# define PKTLEN         (ICMP_MINLEN + DATALEN + 20)
+# define IPHDRLEN       20
+# define PKTLEN         (ICMP_MINLEN + DATALEN + IPHDRLEN)
 
 typedef struct          s_hdr
 {
@@ -89,5 +90,8 @@ void				    statistics(int sig);
 
 long                    gettimestamp_ms(int flag);
 
+
+int     fillicmp(struct icmp *icmp);
+void	filliphdr(struct ip *ip);
 
 #endif
