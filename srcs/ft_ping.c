@@ -38,11 +38,11 @@ void	filliphdr(struct ip *ip)
 	ip->ip_len = PACKET_SIZE;
 	ip->ip_id = htons(0);
 	ip->ip_off = 0;
-	ip->ip_ttl = 5;
+	ip->ip_ttl = 100;
 	ip->ip_p = IPPROTO_ICMP;
 	ip->ip_sum = 0;
 	ip->ip_src.s_addr = INADDR_ANY;
-	ip->ip_dst.s_addr = (uint32_t)g_data->hdr.sin.sin_addr.s_addr;
+	ip->ip_dst.s_addr = ((const struct sockaddr_in*)g_data->sender.info->ai_addr)->sin_addr.s_addr;
 }
 
 int                                     packmsg()
@@ -56,16 +56,14 @@ int                                     packmsg()
 
 int                                     unpackmsg(int len, char *s)
 {
-        int                     ip_hl;
         struct ip               *ip;
         struct icmp             *icmp;
         char addr[INET6_ADDRSTRLEN];
 
 
         ip = (struct ip*)s;
-        ip_hl = ip->ip_hl << 2;
-        icmp = (struct icmp*)(s + ip_hl);
-        len -= ip_hl;
+        icmp = (struct icmp*)(s + 20);
+        len -= 20;
         inet_ntop(AF_INET, &ip->ip_src, addr, INET6_ADDRSTRLEN);
         if (len < 8)
         {
@@ -121,9 +119,9 @@ void receivereply()
 		ret = 0;
 		initheader();
 		if ((responsesize = recvmsg(g_data->sockfd, &g_data->hdr.msg_h, 0)) == -1)
-			continue ;
+			printf("recv failed\n");
 		g_data->stat.s2 = gettimestamp_ms(1);
-		if ((ret = unpackmsg(responsesize, g_data->hdr.iov.iov_base)) < 0)
-			continue ;
+		if ((ret = unpackmsg(responsesize, g_data->hdr.packet)) < 0)
+			printf("unpack failed\n");
 	}
 }
