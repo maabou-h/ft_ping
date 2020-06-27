@@ -1,6 +1,6 @@
 #include "ft_ping.h"
 
-int getinterval(char **av)
+int	getinterval(char **av)
 {
 	int i;
 	int ret;

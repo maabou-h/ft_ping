@@ -23,14 +23,6 @@
 # define IPHDRLEN       20
 # define PKTLEN         (ICMP_MINLEN + DATALEN + IPHDRLEN)
 
-typedef struct          s_hdr
-{
-    struct sockaddr_in  sin;
-	struct msghdr       msg_h;
-	struct iovec        iov;
-    char                cmsg[PACKET_SIZE];
-	char                packet[PACKET_SIZE];
-}                       t_hdr;
 
 typedef struct s_ipdata
 {
@@ -43,6 +35,7 @@ typedef struct          s_stats
 {
     char                *name;
     int                 nsend;
+    int                 seq;
     int                 nreceived;
     long                comma[2];
     long                s1;
@@ -59,39 +52,32 @@ typedef struct          s_data
     int                 interval;
     int                 argno;
     char                *host;
+    char                rcvpacket[PACKET_SIZE];
     pid_t               pid;
     t_stats             stat;
-    t_hdr               hdr;
     t_ipdata            sender;
 }                       t_data;
 
 t_data                  *g_data;
 
-unsigned short          calculatechecksum(unsigned short *addr, int len);
+unsigned short          calculatechecksum(unsigned short *addr);
 
+void                    pinger(int sig);
+void                    listener(void);
 
-int                     packmsg(void);
-int                     unpackmsg(int len, char *s);
-void                    sendecho(int sig);
-void                     receivereply(void);
+struct msghdr           genresphdr(void);
+void                     genhdr(struct ip *ip, struct icmp *icmp);
 
-
-void                    initheader(void);
 void                    initaddressdata(void);
 void                    initsocket(void);
 void                    initprog(void);
 
+int                     options(int argc, char **av);
 
-int                    options(int argc, char **av);
-
+int                     chkpkt(int len, char *s);
 
 void				    statistics(int sig);
 
-
 long                    gettimestamp_ms(int flag);
-
-
-int     fillicmp(struct icmp *icmp);
-void	filliphdr(struct ip *ip);
 
 #endif
