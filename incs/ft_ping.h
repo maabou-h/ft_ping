@@ -24,41 +24,41 @@
 # define PKTLEN         (ICMP_MINLEN + DATALEN + IPHDRLEN)
 
 
-typedef struct s_ipdata
-{
-    char                sendpacket[PACKET_SIZE];
-    char                ip[INET_ADDRSTRLEN];
-    struct addrinfo     *info;
-}                       t_ipdata;
-
 typedef struct          s_stats
 {
-    char                *name;
-    int                 nsend;
-    int                 seq;
-    int                 nreceived;
     long                comma[2];
-    long                s1;
-    long                s2;
+    long                tsin;
+    long                tsout;
     long                starttime;
+    int                 nsend;
+    int                 nreceived;
+    int                 errors;
+    int                 seq;
     uint8_t             to;
 }                       t_stats;
+
+typedef struct          s_opt
+{
+    int                 verbose;
+    int                 interval;
+    int                 ttl;
+    int                 nopt;
+}                       t_opt;
 
 typedef struct          s_data
 {
     int                 sockfd;
-    int                 verbose;
-    int                 count;
-    int                 interval;
-    int                 argno;
+    pid_t               pid;
     char                *host;
     char                rcvpacket[PACKET_SIZE];
-    pid_t               pid;
+    char                sendpacket[PACKET_SIZE];
+    char                ip[INET_ADDRSTRLEN];
+    t_opt               opt;
     t_stats             stat;
-    t_ipdata            sender;
+    struct addrinfo     *info;
 }                       t_data;
 
-t_data                  *g_data;
+t_data g_data;
 
 unsigned short          calculatechecksum(unsigned short *addr);
 
@@ -66,7 +66,7 @@ void                    pinger(int sig);
 void                    listener(void);
 
 struct msghdr           genresphdr(void);
-void                     genhdr(struct ip *ip, struct icmp *icmp);
+void                    genhdr(struct ip *ip, struct icmp *icmp);
 
 void                    initaddressdata(void);
 void                    initsocket(void);
@@ -74,7 +74,7 @@ void                    initprog(void);
 
 int                     options(int argc, char **av);
 
-int                     chkpkt(int len, char *s);
+int                     chkpkt(int len, char *pkt);
 
 void				    statistics(int sig);
 

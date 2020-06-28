@@ -2,10 +2,12 @@
 
 void	statistics(int sig)
 {
-	printf("\n--- %s ft_ping statistics ---\n", g_data->stat.name);
-	printf("%d packets transmitted, %d received , %%%d packet loss, time %ldms\n",\
-		g_data->stat.nsend, g_data->stat.nreceived, 0,\
-		gettimestamp_ms(-1) - g_data->stat.starttime);
-	close(g_data->sockfd);
+	(void)sig;
+	printf("\n--- %s ft_ping statistics ---\n", g_data.host);
+	printf("%d packets transmitted, %d received ,", g_data.stat.nsend, g_data.stat.nreceived);
+	if (g_data.stat.errors)
+		printf(" +%d errors,", g_data.stat.errors);
+	printf(" %d%% packet loss, time %ldms\n", (int)(100.0f - (float)g_data.stat.nreceived / (float)g_data.stat.nsend * 100.0f), gettimestamp_ms(-1) - g_data.stat.starttime);
+	close(g_data.sockfd);
 	exit(1);
 }
