@@ -14,7 +14,7 @@ void pinger(int sig)
         }
 	else
 		g_data.stat.nsend++;
-	alarm(g_data.opt.interval ? g_data.opt.interval : 1);
+	alarm(g_data.opt.interval);
 }
 
 void listener()
@@ -31,6 +31,6 @@ void listener()
 			printf("recv failed\n");
 		g_data.stat.tsout = gettimestamp_ms(1);
 		if ((ret = chkpkt(responsesize, g_data.rcvpacket)) < 0)
-			printf("unpack failed\n");
+			continue;
 	}
 }

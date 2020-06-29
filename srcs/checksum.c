@@ -2,9 +2,9 @@
 
 unsigned short          calculatechecksum(unsigned short *addr)
 {
-        int                             nleft;
-        int                             sum;
-        unsigned short *w;
+        int             nleft;
+        int             sum;
+        unsigned short  *w;
         unsigned short  answer;
 
         nleft = BYTE + DATALEN;

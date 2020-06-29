@@ -4,11 +4,11 @@ static const char	        *icmptype[] =
 {
 	[ICMP_DEST_UNREACH]		= "Destination Unreachable",
 	[ICMP_SOURCE_QUENCH]	= "Source Quench",
-	[ICMP_REDIRECT]			= "Redirect (change route)",
+	[ICMP_REDIRECT]			= "Redirect",
 	[ICMP_ECHO]			    = "Echo Request",
 	[ICMP_TIME_EXCEEDED]	= "Time to live exceeded",
 	[ICMP_PARAMETERPROB]	= "Parameter Problem",
-	[ICMP_TIMESTAMP]		= "Timestamp Request",
+	[ICMP_TIMESTAMP]		= "Timestamp",
 	[ICMP_TIMESTAMPREPLY]   = "Timestamp Reply",
 	[ICMP_INFO_REQUEST]		= "Information Request",
 	[ICMP_INFO_REPLY]		= "Information Reply",

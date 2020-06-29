@@ -66,8 +66,10 @@ int options(int argc, char **av)
 		return (0);
 	}
 	g_data.opt.verbose = setverbose(av);
-	if ((g_data.opt.interval = getoptwitharg(av, "-i")) == -1){printf("interval error\n");
-		return (0);}
+	if ((g_data.opt.interval = getoptwitharg(av, "-i")) == -1)
+		return (0);
+	if (g_data.opt.interval < 1)
+		g_data.opt.interval = 1;
 	if ((g_data.opt.ttl = getoptwitharg(av, "-t")) == -1){printf("ttl error\n");
 		return (0);}
 	g_data.host = av[argc - 2];
