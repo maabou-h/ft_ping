@@ -30,8 +30,7 @@ void                    genhdr(struct ip *ip, struct icmp *icmp)
 	ip->ip_tos = 0;
 	ip->ip_len = PACKET_SIZE;
 	ip->ip_off = 0;
-	ip->ip_ttl = g_data.opt.ttl > 0 ? g_data.opt.ttl : 64;
-	printf("ttl: %d, real ttl %d\n", g_data.opt.ttl, ip->ip_ttl);
+	ip->ip_ttl = g_data.opt.ttl > 0 ? g_data.opt.ttl : STDTTL;
 	ip->ip_p = IPPROTO_ICMP;
 	ip->ip_sum = 0;
 	ip->ip_src.s_addr = INADDR_ANY;

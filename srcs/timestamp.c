@@ -7,8 +7,8 @@ long				gettimestamp_ms(int flag)
 	long			mm;
 
     gettimeofday(&te, NULL);
-    milliseconds = te.tv_sec*1000LL + te.tv_usec/1000;
-	mm = te.tv_sec*10LL + te.tv_usec/10;
+    milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000;
+	mm = te.tv_sec * 10LL + te.tv_usec / 10;
 	if (flag > -1)
 	{
 		g_data.stat.comma[flag] = mm % 1000;
