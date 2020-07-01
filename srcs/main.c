@@ -4,6 +4,7 @@ int			main(int argc, char **argv)
 {
 	signal(SIGINT, statistics);
 	signal(SIGALRM, pinger);
+	g_data.pid = getpid();
 	if (!options(argc, argv + 1))
 	{
 			printf("ft_ping: usage: ./ft_ping [hostname|ip]\n");

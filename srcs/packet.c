@@ -29,6 +29,11 @@ int                         chkpkt(int len, char *pkt)
             printf("ICMP packet length is less than 8\n");
             return(-2);
         }
+	if (icmp->icmp_id != g_data.pid)
+        {
+            printf("Not our packet. %d and pid is %d\n", icmp->icmp_id, g_data.pid);
+            return(-2);
+	}
         if (icmp->icmp_type != ICMP_ECHOREPLY)
         {
             if (icmp->icmp_type < sizeof(icmptype) && icmp->icmp_type == ICMP_ECHO)
@@ -39,6 +44,7 @@ int                         chkpkt(int len, char *pkt)
         }
         else
         {
+            printf("our packet. %d and pid is %d\n", icmp->icmp_id, g_data.pid);
             if (g_data.stat.comma[1] - g_data.stat.comma[0] <= 0)
                 printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ldms\n",\
                 len, g_data.ip, icmp->icmp_seq, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);

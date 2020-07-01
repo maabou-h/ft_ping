@@ -37,7 +37,7 @@ void				initsocket()
 	{
         close(g_data.sockfd);
 		exit(1);
-    }
+    	}
 }
 
 void				initprog()
@@ -47,7 +47,6 @@ void				initprog()
 		printf("ft_ping: must run as root\n");
 		exit(1);
 	}
-	g_data.pid = getpid();
 	g_data.stat.nsend = 0;
 	g_data.stat.seq = 1;
 	g_data.stat.nreceived = 0;
