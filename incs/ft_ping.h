@@ -19,7 +19,6 @@
 # define PACKET_SIZE    4096
 # define MAXNPACKETS    5
 # define ICMPHDRLEN     8
-# define BYTE     8
 # define DATALEN        56
 # define IPHDRLEN       20
 # define PKTLEN         (ICMP_MINLEN + DATALEN + IPHDRLEN)

@@ -6,7 +6,7 @@ void pinger(int sig)
 	bzero(&g_data.sendpacket, sizeof(g_data.sendpacket));
 	genhdr((struct ip*)(g_data.sendpacket), (struct icmp*)(g_data.sendpacket + IPHDRLEN));
 	g_data.stat.tsin = gettimestamp_ms(0);
-        if (sendto(g_data.sockfd, g_data.sendpacket, BYTE + DATALEN, 0, g_data.info->ai_addr, g_data.info->ai_addrlen) < 0)
+        if (sendto(g_data.sockfd, g_data.sendpacket, ICMPHDRLEN + DATALEN, 0, g_data.info->ai_addr, g_data.info->ai_addrlen) < 0)
         {  
                 perror("connect");
                 close(g_data.sockfd);
@@ -32,6 +32,6 @@ void listener()
 		g_data.stat.tsout = gettimestamp_ms(1);
 		g_data.stat.endtime = gettimestamp_ms(1);
 		if ((ret = chkpkt(responsesize, g_data.rcvpacket)) < 0)
-			continue;
+			printf("recv failed\n");
 	}
 }

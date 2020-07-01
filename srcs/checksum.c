@@ -7,7 +7,7 @@ unsigned short          calculatechecksum(unsigned short *addr)
         unsigned short  *w;
         unsigned short  answer;
 
-        nleft = BYTE + DATALEN;
+        nleft = ICMPHDRLEN + DATALEN;
         sum = 0;
         w = addr;
         answer = 0;

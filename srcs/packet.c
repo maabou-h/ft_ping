@@ -23,7 +23,7 @@ int                         chkpkt(int len, char *pkt)
 
 
         ip = (struct ip*)pkt;
-        icmp = (struct icmp*)(pkt + IPHDRLEN);
+        icmp = (struct icmp*)(pkt + sizeof(struct ip));
         if (len - (ip->ip_hl << 2) < ICMPHDRLEN)
         {
             printf("ICMP packet length is less than 8\n");
