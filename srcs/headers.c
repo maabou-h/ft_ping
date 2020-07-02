@@ -18,6 +18,7 @@ struct msghdr           genresphdr()
 	msg_h.msg_controllen = sizeof(cmsg);
 	msg_h.msg_iov = &iov;
 	msg_h.msg_iovlen = 1;
+	msg_h.msg_flags = 0;
     return (msg_h);
 }
 
@@ -28,7 +29,7 @@ void                    genhdr(struct ip *ip, struct icmp *icmp)
 	ip->ip_hl = sizeof(*(ip)) >> 2;
 	ip->ip_tos = 0;
 	ip->ip_len = PACKET_SIZE;
-	ip->ip_off = 0;
+	ip->ip_off |= 0;
 	ip->ip_ttl = g_data.opt.ttl > 0 ? g_data.opt.ttl : STDTTL;
 	ip->ip_p = IPPROTO_ICMP;
 	ip->ip_sum = 0;
@@ -37,7 +38,7 @@ void                    genhdr(struct ip *ip, struct icmp *icmp)
 	ip->ip_dst.s_addr = ((const struct sockaddr_in*)g_data.info->ai_addr)->sin_addr.s_addr;
     icmp->icmp_type = ICMP_ECHO;
     icmp->icmp_code = 0;
-    icmp->icmp_id = (unsigned short)g_data.pid;
+    icmp->icmp_id = g_data.pid;
     icmp->icmp_cksum = 0;
     icmp->icmp_seq = g_data.stat.seq++;
     icmp->icmp_cksum = calculatechecksum((unsigned short*)icmp);

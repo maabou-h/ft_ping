@@ -29,7 +29,7 @@ int                         chkpkt(int len, char *pkt)
             printf("ICMP packet length is less than 8\n");
             return(-2);
         }
-	if (icmp->icmp_id != g_data.pid)
+	if (icmp->icmp_id != g_data.pid && ip->ip_id != 0)
         {
             printf("Not our packet. %d and pid is %d\n", icmp->icmp_id, g_data.pid);
             return(-2);

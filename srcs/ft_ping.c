@@ -28,10 +28,9 @@ void listener()
 		ret = 0;
 		msg_h = genresphdr();
 		if ((responsesize = recvmsg(g_data.sockfd, &msg_h, 0)) == -1)
-			printf("recv failed\n");
+			printf("recv faileds\n");
 		g_data.stat.tsout = gettimestamp_ms(1);
-		g_data.stat.endtime = gettimestamp_ms(1);
 		if ((ret = chkpkt(responsesize, g_data.rcvpacket)) < 0)
-			printf("recv failed\n");
+			continue;
 	}
 }

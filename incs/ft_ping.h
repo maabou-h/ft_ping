@@ -31,7 +31,6 @@ typedef struct          s_stats
     long                tsin;
     long                tsout;
     long                starttime;
-    long                endtime;
     int                 nsend;
     int                 nreceived;
     int                 errors;
