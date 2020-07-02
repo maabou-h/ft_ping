@@ -3,7 +3,7 @@
 void	statistics(int sig)
 {
 	(void)sig;
-	printf("\n--- %s ft_ping statistics ---\n", g_data.host);
+	printf("\n--- %s ft_ping statistics ---\n", g_data.dest);
 	printf("%d packets transmitted, %d received ,", g_data.stat.nsend, g_data.stat.nreceived);
 	if (g_data.stat.errors)
 		printf(" +%d errors,", g_data.stat.errors);

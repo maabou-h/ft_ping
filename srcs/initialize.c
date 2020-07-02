@@ -5,21 +5,16 @@ void				initaddressdata()
 	struct addrinfo	hints;
 
 	memset(&hints, 0, sizeof(hints));
+
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
-	if(getaddrinfo(g_data.host, NULL, &hints, &g_data.info))
+
+	if(getaddrinfo(g_data.dest, NULL, &hints, &g_data.info))
 	{
-		printf("ft_ping: %s: Name or service not known\n", g_data.host);
+		printf("ft_ping: %s: Name or service not known\n", g_data.dest);
 		exit(1);
 	}
-	initsocket();
-	inet_ntop(\
-		AF_INET,\
-		&((const struct sockaddr_in*)g_data.info->ai_addr)->sin_addr,\
-		g_data.ip,\
-		sizeof(g_data.ip)\
-		);
 }
 
 void				initsocket()
@@ -37,7 +32,7 @@ void				initsocket()
 	{
         close(g_data.sockfd);
 		exit(1);
-    	}
+    }
 }
 
 void				initprog()
@@ -51,6 +46,15 @@ void				initprog()
 	g_data.stat.seq = 1;
 	g_data.stat.nreceived = 0;
 	g_data.stat.errors = 0;
+
 	initaddressdata();
+	initsocket();
+	
+	inet_ntop(\
+		AF_INET,\
+		&((const struct sockaddr_in*)g_data.info->ai_addr)->sin_addr,\
+		g_data.ip,\
+		sizeof(g_data.ip)\
+		);
 	g_data.stat.starttime = gettimestamp_ms(-1);
 }

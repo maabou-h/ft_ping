@@ -50,9 +50,8 @@ typedef struct          s_data
 {
     int                 sockfd;
     pid_t               pid;
-    char                *host;
-    char                rcvpacket[PACKET_SIZE];
-    char                sendpacket[PACKET_SIZE];
+    char                *dest;
+    char                packet[PACKET_SIZE];
     char                ip[INET_ADDRSTRLEN];
     t_opt               opt;
     t_stats             stat;
@@ -75,7 +74,7 @@ void                    initprog(void);
 
 int                     options(int argc, char **av);
 
-int                     chkpkt(int len, char *pkt);
+int                     chkpkt(int len);
 
 void				    statistics(int sig);
 

@@ -72,8 +72,8 @@ int options(int argc, char **av)
 		g_data.opt.interval = 1;
 	if ((g_data.opt.ttl = getoptwitharg(av, "-t")) == -1){printf("ttl error\n");
 		return (0);}
-	g_data.host = av[argc - 2];
-	if (g_data.host == NULL){printf("host error\n");
+	g_data.dest = av[argc - 2];
+	if (g_data.dest == NULL){printf("host error\n");
 		return (0);}
 	else
 		g_data.opt.nopt++;
