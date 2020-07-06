@@ -46,7 +46,7 @@ void				initprog()
 	g_data.stat.seq = 1;
 	g_data.stat.nreceived = 0;
 	g_data.stat.errors = 0;
-
+	bzero(&g_data.packet, sizeof(g_data.packet));
 	initaddressdata();
 	initsocket();
 	

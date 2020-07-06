@@ -31,8 +31,8 @@ int                         chkpkt(int len)
         }
 	    if (icmp->icmp_id != g_data.pid)
         {
-            printf("Not our packet. %hu and pid is %d\n", icmp->icmp_id, g_data.pid);
-            return(-2);
+            printf("Not our packet. %hu and pid is %d, icmptype: %d\n", icmp->icmp_id, g_data.pid, icmp->icmp_type);
+		return(-2);
 	    }
         if (icmp->icmp_type != ICMP_ECHOREPLY)
         {
