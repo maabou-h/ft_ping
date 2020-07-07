@@ -4,7 +4,7 @@ struct msghdr           genresphdr()
 {
     struct msghdr       msg_h;
     struct sockaddr_in  sin;
-	struct iovec        iov;
+	struct iovec        iov[1];
     char                cmsg[PACKET_SIZE];
 
 	bzero(&g_data.packet, sizeof(g_data.packet));
@@ -12,14 +12,14 @@ struct msghdr           genresphdr()
 	bzero(&sin, sizeof(sin));
 	bzero(&cmsg, sizeof(cmsg));
 
-	iov.iov_base = g_data.packet;
-	iov.iov_len = sizeof(g_data.packet);
+	iov[0].iov_base = g_data.packet;
+	iov[0].iov_len = sizeof(g_data.packet);
 
 	msg_h.msg_name = &sin;
 	msg_h.msg_namelen = sizeof(sin);
 	msg_h.msg_control = &cmsg;
 	msg_h.msg_controllen = sizeof(cmsg);
-	msg_h.msg_iov = &iov;
+	msg_h.msg_iov = iov;
 	msg_h.msg_iovlen = 1;
 	msg_h.msg_flags = 0;
 

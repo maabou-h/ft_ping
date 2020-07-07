@@ -11,7 +11,7 @@ long				gettimestamp_ms(int flag)
 	mm = te.tv_sec * 10LL + te.tv_usec / 10;
 	if (flag > -1)
 	{
-		g_data.stat.comma[flag] = mm % 1000;
+		g_data.stat.comma[flag] = mm % 100;
 	}
     return milliseconds;
 }

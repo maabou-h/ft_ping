@@ -32,12 +32,12 @@ int                         chkpkt(int len)
 	    if (icmp->icmp_id != g_data.pid)
         {
             printf("Not our packet. %hu and pid is %d, icmptype: %d\n", icmp->icmp_id, g_data.pid, icmp->icmp_type);
-		return(-2);
+		    return(-2);
 	    }
-        if (icmp->icmp_type != ICMP_ECHOREPLY)
+        if (icmp->icmp_type != ICMP_ECHOREPLY) // verbose mode to imp here
         {
             if (icmp->icmp_type < sizeof(icmptype) && icmp->icmp_type == ICMP_ECHO)
-            return (0);
+                return (0);
             printf("From %s icmp_seq=%u %s\n", g_data.ip, g_data.stat.seq - 1, \
             (icmp->icmp_type < sizeof(icmptype) ? icmptype[icmp->icmp_type] : NULL));
             g_data.stat.errors++;
