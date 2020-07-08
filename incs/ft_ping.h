@@ -7,11 +7,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <netinet/in.h>
-#include <netinet/ip.h>
+//#include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
 #include <netdb.h>
 #include <string.h>
-#include <errno.h>
 
 #ifndef FT_PING_H
 # define FT_PING_H
@@ -22,7 +21,7 @@
 # define DATALEN        56
 # define IPHDRLEN       20
 # define PKTLEN         (ICMP_MINLEN + DATALEN + IPHDRLEN)
-# define STDTTL         64
+# define STDTTL         255
 
 
 typedef struct          s_stats
@@ -48,25 +47,26 @@ typedef struct          s_opt
 
 typedef struct          s_data
 {
+    t_stats             stat;
     int                 sockfd;
     pid_t               pid;
     char                *dest;
     char                packet[PACKET_SIZE];
+    char                rcvpacket[PACKET_SIZE];
     char                ip[INET_ADDRSTRLEN];
     t_opt               opt;
-    t_stats             stat;
     struct addrinfo     *info;
 }                       t_data;
 
 t_data g_data;
 
-unsigned short          calculatechecksum(unsigned short *addr);
+unsigned short          calculatechecksum(unsigned short *addr, int len);
 
 void                    pinger(int sig);
 void                    listener(void);
 
-struct msghdr           genresphdr(void);
-void                    genhdr(struct ip *ip, struct icmp *icmp);
+struct msghdr           genmsghdr(void);
+void                    genicmphdr(struct ip *ip, struct icmp *icmp);
 
 void                    initaddressdata(void);
 void                    initsocket(void);

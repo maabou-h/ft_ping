@@ -1,13 +1,13 @@
 #include "ft_ping.h"
 
-unsigned short          calculatechecksum(unsigned short *addr)
+unsigned short          calculatechecksum(unsigned short *addr, int len)
 {
         int             nleft;
         int             sum;
         unsigned short  *w;
         unsigned short  answer;
 
-        nleft = ICMPHDRLEN + DATALEN;
+        nleft = len;
         sum = 0;
         w = addr;
         answer = 0;

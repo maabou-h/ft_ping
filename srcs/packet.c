@@ -22,16 +22,16 @@ int                         chkpkt(int len)
         struct icmp         *icmp;
 
 
-        ip = (struct ip*)g_data.packet;
-        icmp = (struct icmp*)(g_data.packet + IPHDRLEN);
+        ip = (struct ip*)g_data.rcvpacket;
+        icmp = (struct icmp*)(g_data.rcvpacket + (ip->ip_hl << 2));
         if (len - (ip->ip_hl << 2) < ICMPHDRLEN)
         {
             printf("ICMP packet length is less than 8\n");
             return(-2);
         }
-	    if (icmp->icmp_id != g_data.pid)
+	if ((int)icmp->icmp_id != (int)g_data.pid)
         {
-            printf("Not our packet. %hu and pid is %d, icmptype: %d\n", icmp->icmp_id, g_data.pid, icmp->icmp_type);
+            printf("Not our packet. %d and pid is %d, icmptype: %d\n", icmp->icmp_id, g_data.pid, icmp->icmp_type);
 		    return(-2);
 	    }
         if (icmp->icmp_type != ICMP_ECHOREPLY) // verbose mode to imp here

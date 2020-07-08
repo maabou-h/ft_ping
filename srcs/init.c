@@ -6,7 +6,7 @@ void                            initaddressdata()
 
         memset(&hints, 0, sizeof(hints));
 
-        hints.ai_family = AF_INET;
+        hints.ai_family = PF_INET;
         hints.ai_socktype = SOCK_RAW;
         hints.ai_protocol = IPPROTO_ICMP;
 
@@ -19,8 +19,8 @@ void                            initaddressdata()
 
 void                            initsocket()
 {
-    if ((g_data.sockfd = socket(g_data.info->ai_family,\
-            g_data.info->ai_socktype, g_data.info->ai_protocol)) < 0)
+    if ((g_data.sockfd = socket(PF_INET,\
+            SOCK_RAW, IPPROTO_ICMP)) < 0)
     {
     	printf("ft_ping: error creating socket\n");
             exit(1);
@@ -39,12 +39,8 @@ void                            initprog()
             printf("ft_ping: must run as root\n");
             exit(1);
     }
-	g_data.stat.nsend = 0;
-	g_data.stat.nreceived = 0;
-    g_data.stat.seq = 1;
-    g_data.stat.errors = 0;
-    bzero(&g_data.packet, sizeof(g_data.packet));
-    initaddressdata();
+    bzero(&g_data.stat, sizeof(g_data.stat));
+	initaddressdata();
     initsocket();
     inet_ntop(\
             AF_INET,\
