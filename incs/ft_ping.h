@@ -65,7 +65,7 @@ unsigned short          calculatechecksum(unsigned short *addr, int len);
 void                    pinger(int sig);
 void                    listener(void);
 
-struct msghdr           genmsghdr(void);
+int           genmsghdr(void);
 void                    genicmphdr(struct ip *ip, struct icmp *icmp);
 
 void                    initaddressdata(void);

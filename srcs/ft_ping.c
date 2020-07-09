@@ -22,14 +22,12 @@ void pinger(int sig)
 
 void listener()
 {
-	struct msghdr       msg_h = {0};
 	ssize_t				responsesize;
 	
 	responsesize = 0;
 	while (1)
 	{	
-		msg_h = genmsghdr();
-		if ((responsesize = recvmsg(g_data.sockfd, &msg_h, 0)) == -1)
+		if ((responsesize = genmsghdr()) == -1)
 			printf("recv failed\n");
 		g_data.stat.tsout = gettimestamp_ms(1);
 		chkpkt(responsesize);

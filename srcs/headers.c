@@ -1,17 +1,16 @@
 #include "ft_ping.h"
 
-struct msghdr           genmsghdr()
+int           genmsghdr()
 {
 	struct msghdr       msg_h;
     	struct sockaddr_in  sin;
         struct iovec        iov[1];
-   	 char                cmsg[PACKET_SIZE];
+	int		ans;
 
         bzero(&g_data.rcvpacket, PACKET_SIZE);
                 
         bzero(&msg_h, sizeof(msg_h));
         bzero(&sin, sizeof(sin));
-        bzero(&cmsg, sizeof(cmsg));
         bzero(&iov, sizeof(iov));
 
         iov[0].iov_base = g_data.rcvpacket;
@@ -24,8 +23,8 @@ struct msghdr           genmsghdr()
 	msg_h.msg_iov = iov;
 	msg_h.msg_iovlen = 1;
 	msg_h.msg_flags = 0;
-
-	return (msg_h);
+	ans = recvmsg(g_data.sockfd, &msg_h, 0);
+	return (ans);
 }
 
 
