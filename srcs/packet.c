@@ -19,39 +19,43 @@ static const char	        *icmptype[] =
 int                         chkpkt(int len)
 {
         struct ip           *ip;
-        struct icmp         *icmp;
+	struct icmp	*icmp;
 
 
         ip = (struct ip*)g_data.rcvpacket;
-        icmp = (struct icmp*)(g_data.rcvpacket + (ip->ip_hl << 2));
-        if (len - (ip->ip_hl << 2) < ICMPHDRLEN)
-        {
-            printf("ICMP packet length is less than 8\n");
-            return(-2);
-        }
-	if ((int)icmp->icmp_id != (int)g_data.pid)
-        {
-            printf("Not our packet. %d and pid is %d, icmptype: %d\n", icmp->icmp_id, g_data.pid, icmp->icmp_type);
-		    return(-2);
-	    }
-        if (icmp->icmp_type != ICMP_ECHOREPLY) // verbose mode to imp here
-        {
-            if (icmp->icmp_type < sizeof(icmptype) && icmp->icmp_type == ICMP_ECHO)
-                return (0);
-            printf("From %s icmp_seq=%u %s\n", g_data.ip, g_data.stat.seq - 1, \
-            (icmp->icmp_type < sizeof(icmptype) ? icmptype[icmp->icmp_type] : NULL));
-            g_data.stat.errors++;
-        }
-        else
-        {
-            if (g_data.stat.comma[1] - g_data.stat.comma[0] <= 0)
-                printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ldms\n",\
-                len, g_data.ip, icmp->icmp_seq, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);
-            else
-                printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ld.%ldms\n",\
-                len, g_data.ip, icmp->icmp_seq, ip->ip_ttl,\
-                g_data.stat.tsout - g_data.stat.tsin, g_data.stat.comma[1] - g_data.stat.comma[0]);
-            g_data.stat.nreceived++;
-        }
+	if (((struct icmp*)(g_data.rcvpacket + IPHDRLEN))->icmp_type == ICMP_ECHOREPLY)
+	{
+        	icmp = (struct icmp*)(g_data.rcvpacket + IPHDRLEN);
+		if (icmp->icmp_id != g_data.pid)
+			printf("Not our packet1, %d\n", icmp->icmp_code);
+        	else
+        	{
+            	if (g_data.stat.comma[1] - g_data.stat.comma[0] <= 0)
+            	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ldms\n",\
+            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);
+            	else
+            	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ld.%ldms\n",\
+            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl,\
+            	    g_data.stat.tsout - g_data.stat.tsin, g_data.stat.comma[1] - g_data.stat.comma[0]);
+            	g_data.stat.nreceived++;
+        	}
+	}
+	else 
+	{
+        	icmp = (struct icmp*)(g_data.rcvpacket + 48);
+		if (icmp->icmp_id != g_data.pid)
+			printf("Not our packet\n");
+        	else
+        	{
+            	if (g_data.stat.comma[1] - g_data.stat.comma[0] <= 0)
+            	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ldms\n",\
+            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);
+            	else
+            	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ld.%ldms\n",\
+            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl,\
+            	    g_data.stat.tsout - g_data.stat.tsin, g_data.stat.comma[1] - g_data.stat.comma[0]);
+            	g_data.stat.nreceived++;
+        	}
+	}
         return (1);
 }

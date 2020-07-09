@@ -2,9 +2,14 @@
 
 void pinger(int sig)
 {
-	(void)sig;
+	char *content;
+
+	content = (char*)(g_data.packet + IPHDRLEN + ICMPHDRLEN);
+	sig = -1;
+	while (++sig < DATALEN)
+		content[sig] = 16 + sig;
 	genicmphdr((struct ip*)(g_data.packet), (struct icmp*)(g_data.packet + IPHDRLEN));
-    if (sendto(g_data.sockfd, g_data.packet, ICMPHDRLEN + DATALEN, 0, g_data.info->ai_addr, g_data.info->ai_addrlen) < 0)
+    if (sendto(g_data.sockfd, g_data.packet, ICMPHDRLEN + DATALEN + IPHDRLEN , 0, g_data.info->ai_addr, g_data.info->ai_addrlen) < 0)
     {  
 	printf("send failed\n");
         close(g_data.sockfd);
@@ -28,7 +33,6 @@ void listener()
 			printf("recv failed\n");
 		g_data.stat.tsout = gettimestamp_ms(1);
 		chkpkt(responsesize);
-		printf("listener icmpid: %hu, pid %d\n", ((struct icmp*)(g_data.rcvpacket + IPHDRLEN))->icmp_id, g_data.pid); 
 	}
 }
 
@@ -41,8 +45,8 @@ int			main(int argc, char **argv)
 
 	options(argc, argv + 1);
 	initprog();
-	pinger(SIGALRM);
-	printf("ft_ping %s (%s): %d(%d) bytes of data.\n", argv[argc - 1], g_data.ip, DATALEN, PKTLEN);
+	pinger(-1);
+	printf("ft_ping %s (%s): %d(%d) bytes of data.\n", argv[argc - 1], g_data.ip, DATALEN + ICMPHDRLEN - ICMP_MINLEN , PKTLEN);
 	listener();
 	return (0);
 }
