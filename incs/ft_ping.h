@@ -15,13 +15,12 @@
 #ifndef FT_PING_H
 # define FT_PING_H
 
-# define PACKET_SIZE    4096
-# define MAXNPACKETS    5
-# define ICMPHDRLEN     24
-# define DATALEN        40
+# define ICMPPAYLOAD    (1500 - IPHDRLEN - ICMPHDRLEN)
+# define ICMPHDRLEN     8
+# define DATALEN        56
 # define IPHDRLEN       20
-# define PKTLEN         (DATALEN + IPHDRLEN + ICMPHDRLEN)
 # define STDTTL         255
+# define PKTLEN         IPHDRLEN + ICMPHDRLEN + DATALEN
 
 
 typedef struct          s_stats
@@ -51,8 +50,8 @@ typedef struct          s_data
     int                 sockfd;
     pid_t               pid;
     char                *dest;
-    char                packet[PACKET_SIZE];
-    char                rcvpacket[PACKET_SIZE];
+    char                packet[ICMPPAYLOAD];
+    char                rcvpacket[ICMPPAYLOAD];
     char                ip[INET_ADDRSTRLEN];
     t_opt               opt;
     struct addrinfo     *info;

@@ -23,6 +23,7 @@ int                         chkpkt(int len)
 
 
         ip = (struct ip*)g_data.rcvpacket;
+	len -= ip->ip_hl << 2;
 	if (((struct icmp*)(g_data.rcvpacket + IPHDRLEN))->icmp_type == ICMP_ECHOREPLY)
 	{
         	icmp = (struct icmp*)(g_data.rcvpacket + IPHDRLEN);

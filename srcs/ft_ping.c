@@ -5,7 +5,7 @@ void pinger(int sig)
 	if (sig == 42)
 		printf("ft_ping %s (%s): %d(%d) bytes of data.\n", g_data.dest, g_data.ip, DATALEN + ICMPHDRLEN - ICMP_MINLEN , PKTLEN);
 	pack();
-    if (sendto(g_data.sockfd, g_data.packet, ICMPHDRLEN + DATALEN + IPHDRLEN , 0, g_data.info->ai_addr, g_data.info->ai_addrlen) < 0)
+    if (sendto(g_data.sockfd, g_data.packet, DATALEN + ICMPHDRLEN + IPHDRLEN , 0, g_data.info->ai_addr, g_data.info->ai_addrlen) < 0)
     {  
 	printf("send failed\n");
         close(g_data.sockfd);

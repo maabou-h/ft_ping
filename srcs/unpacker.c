@@ -7,7 +7,7 @@ int           unpack()
         struct iovec        iov[1];
 	int		ans;
 
-        bzero(&g_data.rcvpacket, PACKET_SIZE);
+        bzero(&g_data.rcvpacket, sizeof(g_data.rcvpacket));
                 
         bzero(&msg_h, sizeof(msg_h));
         bzero(&sin, sizeof(sin));
