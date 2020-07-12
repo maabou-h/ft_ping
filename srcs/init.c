@@ -6,7 +6,7 @@ void                            initaddressdata()
 
         memset(&hints, 0, sizeof(hints));
 
-        hints.ai_family = PF_INET;
+        hints.ai_family = AF_INET;
         hints.ai_socktype = SOCK_RAW;
         hints.ai_protocol = IPPROTO_ICMP;
 
@@ -19,7 +19,7 @@ void                            initaddressdata()
 
 void                            initsocket()
 {
-    if ((g_data.sockfd = socket(PF_INET,\
+    if ((g_data.sockfd = socket(AF_INET,\
             SOCK_RAW, IPPROTO_ICMP)) < 0)
     {
     	printf("ft_ping: error creating socket\n");

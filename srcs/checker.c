@@ -32,10 +32,10 @@ int                         chkpkt(int len)
         	{
             	if (g_data.stat.comma[1] - g_data.stat.comma[0] <= 0)
             	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ldms\n",\
-            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);
+            	    len, g_data.ip, icmp->icmp_seq + 1, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);
             	else
             	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ld.%ldms\n",\
-            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl,\
+            	    len, g_data.ip, icmp->icmp_seq + 1, ip->ip_ttl,\
             	    g_data.stat.tsout - g_data.stat.tsin, g_data.stat.comma[1] - g_data.stat.comma[0]);
             	g_data.stat.nreceived++;
         	}
@@ -43,18 +43,18 @@ int                         chkpkt(int len)
 	else 
 	{
         	icmp = (struct icmp*)(g_data.rcvpacket + 48);
-		if (icmp->icmp_id != g_data.pid)
-			printf("Not our packet\n");
+			if (icmp->icmp_id != g_data.pid)
+				printf("Not our packet\n");
         	else
         	{
-            	if (g_data.stat.comma[1] - g_data.stat.comma[0] <= 0)
-            	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ldms\n",\
-            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl, g_data.stat.tsout - g_data.stat.tsin);
-            	else
-            	    printf("%d bytes from %s: icmp_seq=%u ttl=%d time=%ld.%ldms\n",\
-            	    len, g_data.ip, icmp->icmp_seq, ip->ip_ttl,\
-            	    g_data.stat.tsout - g_data.stat.tsin, g_data.stat.comma[1] - g_data.stat.comma[0]);
-            	g_data.stat.nreceived++;
+				if (g_data.opt.verbose)
+            		printf("From %s: type: %d code %d\n",\
+            	    	g_data.ip, icmp->icmp_type, icmp->icmp_code);
+				else
+            		printf("From %s: icmp_seq:%d %s\n",\
+            	    	g_data.ip, icmp->icmp_seq + 1, icmptype[((struct icmp*)(g_data.rcvpacket + IPHDRLEN))->icmp_type]);
+				
+            	g_data.stat.errors++;
         	}
 	}
         return (1);

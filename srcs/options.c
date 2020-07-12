@@ -1,7 +1,7 @@
 #include "ft_ping.h"
 
 
-int getoptwitharg(char **av, char *opt)
+static int getoptwitharg(char **av, char *opt)
 {
 	int i;
 	int ret;
@@ -27,7 +27,7 @@ int getoptwitharg(char **av, char *opt)
 	return (ret);
 }
 
-int setverbose(char **av)
+static int setverbose(char **av)
 {
 	int i;
 
@@ -44,7 +44,7 @@ int setverbose(char **av)
 	return (0);
 }
 
-int helper(char **av)
+static int helper(char **av)
 {
 	int i;
 
@@ -65,19 +65,21 @@ int options(int argc, char **av)
 	{
 		return (0);
 	}
+	if (helper(av))
+		return (-1);
 	g_data.opt.verbose = setverbose(av);
 	if ((g_data.opt.interval = getoptwitharg(av, "-i")) == -1)
 		return (0);
 	if (g_data.opt.interval < 1)
 		g_data.opt.interval = 1;
-	if ((g_data.opt.ttl = getoptwitharg(av, "-t")) == -1){printf("ttl error\n");
-		return (0);}
+	if ((g_data.opt.ttl = getoptwitharg(av, "-t")) == -1)
+		return (0);
 	g_data.dest = av[argc - 2];
-	if (g_data.dest == NULL){printf("host error\n");
-		return (0);}
+	if (g_data.dest == NULL)
+		return (0);
 	else
 		g_data.opt.nopt++;
-	if (argc - 1 != g_data.opt.nopt || helper(av)){printf(helper(av) ? "help option" : "arg error\n");
-		return (0);}
-		return 1;
+	if (argc - 1 != g_data.opt.nopt)
+		return (0);
+	return 1;
 }
