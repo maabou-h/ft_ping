@@ -1,10 +1,9 @@
 #include "ft_ping.h"
 
-
-static int getoptwitharg(char **av, char *opt)
+static int	getoptwitharg(char **av, char *opt)
 {
-	int i;
-	int ret;
+	int		i;
+	int		ret;
 
 	i = 0;
 	ret = 0;
@@ -27,9 +26,9 @@ static int getoptwitharg(char **av, char *opt)
 	return (ret);
 }
 
-static int setverbose(char **av)
+static int	setverbose(char **av)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (av[i])
@@ -39,14 +38,14 @@ static int setverbose(char **av)
 			g_data.opt.nopt++;
 			return (1);
 		}
-			i++;
+		i++;
 	}
 	return (0);
 }
 
-static int helper(char **av)
+static int	helper(char **av)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (av[i])
@@ -58,7 +57,7 @@ static int helper(char **av)
 	return (0);
 }
 
-int options(int argc, char **av)
+int			options(int argc, char **av)
 {
 	g_data.opt.nopt = 0;
 	if (argc < 2)
@@ -81,5 +80,5 @@ int options(int argc, char **av)
 		g_data.opt.nopt++;
 	if (argc - 1 != g_data.opt.nopt)
 		return (0);
-	return 1;
+	return (1);
 }
