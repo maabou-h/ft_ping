@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ping.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maabou-h <maabou-h@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 11:48:38 by maabou-h          #+#    #+#             */
+/*   Updated: 2019/08/20 15:47:29 by maabou-h         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ping.h"
 
 void		pinger(int sig)
@@ -10,7 +22,6 @@ void		pinger(int sig)
 				+ IPHDRLEN, 0, g_data.info->ai_addr,\
 				g_data.info->ai_addrlen) < 0)
 	{
-		printf("send failed\n");
 		close(g_data.sockfd);
 		exit(1);
 	}
@@ -27,7 +38,7 @@ void		listener(void)
 	while (1)
 	{
 		if ((responsesize = unpack()) == -1)
-			printf("recv failed\n");
+			continue ;
 		g_data.stat.tsout = gettimestamp_ms(1);
 		chkpkt(responsesize);
 	}
@@ -37,16 +48,13 @@ int			main(int argc, char **argv)
 {
 	int		v;
 
-	bzero(&g_data, sizeof(g_data));
+	ft_bzero(&g_data, sizeof(g_data));
 	g_data.pid = getpid();
 	signal(SIGINT, statistics);
 	signal(SIGALRM, pinger);
 	if ((v = options(argc, argv + 1)) < 1)
 	{
-		if (v == -1)
-			printf("usage\n");
-		else
-			printf("arg eror\n");
+		printf("Usage: ping [-h] [-i interval] [-t ttl] destination\n");
 		return (1);
 	}
 	initprog();

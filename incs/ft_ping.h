@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ping.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maabou-h <maabou-h@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 11:48:38 by maabou-h          #+#    #+#             */
+/*   Updated: 2019/08/20 15:47:29 by maabou-h         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PING_H
 # define FT_PING_H
 # include <stdio.h>
@@ -64,5 +76,8 @@ int						options(int argc, char **av);
 int						chkpkt(int len);
 void					statistics(int sig);
 long					gettimestamp_ms(int flag);
+void					ft_bzero(void *s, size_t n);
+int						ft_atoi(const char *str);
+int						ft_strcmp(const char *s1, const char *s2);
 
 #endif

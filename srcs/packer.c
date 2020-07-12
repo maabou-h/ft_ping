@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   packer.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maabou-h <maabou-h@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 11:48:38 by maabou-h          #+#    #+#             */
+/*   Updated: 2019/08/20 15:47:29 by maabou-h         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ping.h"
 
 static void	genmsgcontent(char *content)
@@ -37,7 +49,7 @@ static void	genicmphdr(struct icmp *icmp)
 
 void		pack(void)
 {
-	bzero(&g_data.packet, sizeof(g_data.packet));
+	ft_bzero(&g_data.packet, sizeof(g_data.packet));
 	g_data.stat.tsin = gettimestamp_ms(0);
 	genmsgcontent((char*)(g_data.packet + IPHDRLEN + ICMPHDRLEN));
 	geniphdr((struct ip*)(g_data.packet));

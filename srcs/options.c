@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   options.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maabou-h <maabou-h@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 11:48:38 by maabou-h          #+#    #+#             */
+/*   Updated: 2019/08/20 15:47:29 by maabou-h         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ping.h"
 
 static int	getoptwitharg(char **av, char *opt)
@@ -9,11 +21,11 @@ static int	getoptwitharg(char **av, char *opt)
 	ret = 0;
 	while (av[i])
 	{
-		if (!strcmp(av[i], opt))
+		if (!ft_strcmp(av[i], opt))
 		{
 			if (av[i + 1] == NULL)
 				return (-1);
-			else if ((ret = atoi(av[i + 1])) < 1)
+			else if ((ret = ft_atoi(av[i + 1])) < 1)
 				return (-1);
 			else
 			{
@@ -33,7 +45,7 @@ static int	setverbose(char **av)
 	i = 0;
 	while (av[i])
 	{
-		if (!strcmp(av[i], "-v"))
+		if (!ft_strcmp(av[i], "-v"))
 		{
 			g_data.opt.nopt++;
 			return (1);
@@ -50,7 +62,7 @@ static int	helper(char **av)
 	i = 0;
 	while (av[i])
 	{
-		if (!strcmp(av[i], "-h"))
+		if (!ft_strcmp(av[i], "-h"))
 			return (1);
 		i++;
 	}

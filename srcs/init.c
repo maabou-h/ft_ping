@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maabou-h <maabou-h@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 11:48:38 by maabou-h          #+#    #+#             */
+/*   Updated: 2019/08/20 15:47:29 by maabou-h         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ping.h"
 
 void				initaddressdata(void)
 {
 	struct addrinfo	hints;
 
-	memset(&hints, 0, sizeof(hints));
+	ft_bzero(&hints, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
@@ -38,7 +50,7 @@ void				initprog(void)
 		printf("ft_ping: must run as root\n");
 		exit(1);
 	}
-	bzero(&g_data.stat, sizeof(g_data.stat));
+	ft_bzero(&g_data.stat, sizeof(g_data.stat));
 	initaddressdata();
 	initsocket();
 	inet_ntop(\
